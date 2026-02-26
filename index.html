@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexus Core | Sistema de Gestão</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-icon">⚡</div>
+          <div>
+            <h1>Nexus Core</h1>
+            <p>Automação Residencial</p>
+          </div>
+        </div>
+
+        <nav>
+          <p class="section-title">Geral</p>
+          <a class="nav-link active" href="#">Dashboard</a>
+
+          <p class="section-title">Comercial</p>
+          <a class="nav-link" href="#">Pipeline CRM</a>
+          <a class="nav-link" href="#">Clientes</a>
+          <a class="nav-link" href="#">Orçamentos</a>
+          <a class="nav-link" href="#">Metas & Relatórios</a>
+
+          <p class="section-title">Técnica</p>
+          <a class="nav-link" href="#">Ordens de Serviço</a>
+          <a class="nav-link" href="#">Estoque</a>
+
+          <p class="section-title">Administrativo</p>
+          <a class="nav-link" href="#">Financeiro</a>
+          <a class="nav-link" href="#">Fluxo de Caixa</a>
+          <a class="nav-link" href="#">Contratos</a>
+          <a class="nav-link" href="#">Configurações</a>
+        </nav>
+
+        <footer class="sidebar-footer">v1.0 · Nexus Core Automação</footer>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <h2>Sistema de Gestão</h2>
+          </div>
+          <button id="refreshBtn">Atualizar dados</button>
+        </header>
+
+        <section class="headline">
+          <h3>Dashboard</h3>
+          <p>Nexus Core Automação · Visão geral</p>
+        </section>
+
+        <section class="cards" id="kpiCards"></section>
+
+        <section class="panels">
+          <article class="panel">
+            <h4>Atividades Recentes</h4>
+            <ul id="activityList"></ul>
+          </article>
+          <article class="panel">
+            <h4>OS Pendentes</h4>
+            <div id="ordersList"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
