@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexus Core | App Windows + Supabase</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <div>
+          <h1>Nexus Core</h1>
+          <p>App de gestão para Windows com banco compartilhado (Supabase)</p>
+        </div>
+        <button id="reloadDataBtn">Sincronizar dados</button>
+      </header>
+
+      <section class="card config-card">
+        <h2>Configuração Supabase</h2>
+        <p>Informe a URL e a chave anônima do seu projeto. Os dados ficam salvos neste computador.</p>
+        <form id="configForm" class="grid-2">
+          <label>
+            Supabase URL
+            <input type="url" id="supabaseUrl" placeholder="https://xxxx.supabase.co" required />
+          </label>
+          <label>
+            Supabase Anon Key
+            <input type="text" id="supabaseAnonKey" placeholder="eyJ..." required />
+          </label>
+          <button type="submit">Conectar</button>
+          <button type="button" id="disconnectBtn" class="secondary">Desconectar</button>
+        </form>
+        <small id="connectionStatus">Não conectado.</small>
+      </section>
+
+      <section class="metrics" id="metrics"></section>
+
+      <section class="grid-columns">
+        <article class="card">
+          <h2>Novo Cliente</h2>
+          <form id="clientForm" class="stack">
+            <input id="clientName" placeholder="Nome do cliente" required />
+            <input id="clientEmail" type="email" placeholder="Email" required />
+            <input id="clientPhone" placeholder="Telefone" required />
+            <button type="submit">Salvar cliente</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <h2>Nova Ordem de Serviço</h2>
+          <form id="orderForm" class="stack">
+            <input id="orderTitle" placeholder="Título da OS" required />
+            <select id="orderStatus" required>
+              <option value="Em andamento">Em andamento</option>
+              <option value="Aguardando material">Aguardando material</option>
+              <option value="Finalizada">Finalizada</option>
+            </select>
+            <input id="orderValue" type="number" min="0" step="0.01" placeholder="Valor (R$)" required />
+            <button type="submit">Salvar OS</button>
+          </form>
+        </article>
+      </section>
+
+      <section class="grid-columns">
+        <article class="card">
+          <h2>Clientes</h2>
+          <ul id="clientsList" class="list"></ul>
+        </article>
+
+        <article class="card">
+          <h2>Ordens de Serviço</h2>
+          <ul id="ordersList" class="list"></ul>
+        </article>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
