@@ -1,83 +1,118 @@
-# CrystalCaverns
+# NexusCore MVP - CRM + Kanban + Indicações
 
-App de gestão para **rodar no Windows** e usar **base de dados compartilhada no Supabase**.
+MVP web responsivo para uso interno com **Next.js + TypeScript + Tailwind** no frontend e **Supabase (Postgres)** no backend.
 
-## O que foi entregue
+## Funcionalidades implementadas
 
-- Interface web (HTML/CSS/JS) para cadastro de:
+- Login simples por `username + password` usando tabela `users` no Supabase (sem segurança avançada, focado no MVP).
+- Rotas internas protegidas por sessão simples via cookie.
+- Menu hambúrguer em todas as telas internas:
+  - Dashboard
+  - Kanban
   - Clientes
-  - Ordens de serviço
-- Dashboard com métricas em tempo real (clientes, ordens, em andamento e faturamento).
-- Conexão direta com Supabase (URL + ANON KEY).
-- Atualização em tempo real via Realtime (postgres_changes).
+  - CRM (Contratos)
+  - Indicações
+  - Produtos & Serviços
+  - Sair
+- CRM:
+  - CRUD de clientes
+  - CRUD básico de contratos de comodato
+- Kanban:
+  - Colunas configuráveis no banco
+  - Cards com drag-and-drop (dnd-kit)
+  - Persistência de coluna/posição no Supabase
+- Produtos & Serviços:
+  - CRUD básico
+- Indicações:
+  - Contrato pode ser indicado por um cliente (`referred_by_client_id`)
+  - Resumo por cliente indicador com:
+    - quantidade de contratos indicados ATIVOS
+    - percentual de desconto (`qtd * 10%`)
+    - lista de contratos válidos para desconto
 
-## 1) Criar as tabelas no Supabase
+---
 
-No painel do Supabase, abra **SQL Editor** e execute o arquivo:
+## Stack
 
-- `supabase/schema.sql`
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- React Hook Form + Zod
+- dnd-kit
+- Supabase JS
 
-Esse script cria:
+---
 
-- `public.clientes`
-- `public.ordens_servico`
-- policies de RLS para leitura/escrita
-- inclusão das tabelas no Realtime
-
-## 2) Rodar no Windows
-
-### Opção A (mais simples): Python
-
-No PowerShell, dentro da pasta do projeto:
-
-```powershell
-python -m http.server 8080
-```
-
-Abra no navegador:
-
-- `http://localhost:8080`
-
-### Opção B: Node
-
-```powershell
-npx serve . -l 8080
-```
-
-## 3) Conectar no Supabase dentro do app
-
-Ao abrir a página:
-
-1. Cole a **Supabase URL**
-2. Cole a **Supabase Anon Key**
-3. Clique em **Conectar**
-
-Onde achar esses dados:
-
-- Supabase Project Settings → API
-
-## 4) Uso compartilhado (vários PCs Windows)
-
-Para várias máquinas usarem o mesmo banco:
-
-1. Publique este app em um servidor (ou rode em uma máquina central)
-2. Cada usuário acessa a URL pelo navegador
-3. Todos apontam para o mesmo projeto Supabase
-
-Assim, os registros ficam compartilhados entre todos.
-
-## 5) Deploy com Docker (opcional)
+## Estrutura de pastas
 
 ```bash
-docker build -t crystal-caverns-dashboard .
-docker run -d --name crystal-dashboard -p 8080:80 --restart unless-stopped crystal-caverns-dashboard
+.
+├── app/
+│   ├── dashboard/page.tsx
+│   ├── kanban/page.tsx
+│   ├── clientes/page.tsx
+│   ├── crm/contratos/page.tsx
+│   ├── indicacoes/page.tsx
+│   ├── login/page.tsx
+│   ├── produtos-servicos/page.tsx
+│   ├── globals.css
+│   └── layout.tsx
+├── components/
+│   ├── FormCliente.tsx
+│   ├── IndicationsSummary.tsx
+│   ├── InternalShell.tsx
+│   ├── KanbanBoard.tsx
+│   ├── MenuHamburguer.tsx
+│   └── TabelaClientes.tsx
+├── lib/
+│   ├── auth.ts
+│   ├── supabase.ts
+│   └── types.ts
+├── supabase/
+│   ├── migrations/001_mvp_crm_kanban_indicacoes.sql
+│   └── seed.sql
+├── middleware.ts
+└── README.md
 ```
 
-## Observação de segurança
+---
 
-Este projeto usa ANON KEY no front-end (padrão de apps web com Supabase).
-Para produção real, recomenda-se:
+## Configuração do Supabase
 
-- endurecer políticas RLS por usuário/empresa
-- autenticação com Supabase Auth
-- perfis e regras por tenant
+1. Crie um projeto no Supabase.
+2. Abra **SQL Editor** e execute:
+   - `supabase/migrations/001_mvp_crm_kanban_indicacoes.sql`
+3. (Opcional) execute `supabase/seed.sql` para dados iniciais.
+4. Pegue suas credenciais em **Project Settings > API**.
+
+Crie o arquivo `.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://SEU-PROJETO.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=SUA_ANON_KEY
+```
+
+---
+
+## Rodar localmente
+
+```bash
+npm install
+npm run dev
+```
+
+Abra: `http://localhost:3000`
+
+Usuário inicial (seed da migration):
+
+- usuário: `admin`
+- senha: `admin123`
+
+---
+
+## Observações de MVP
+
+- A autenticação foi feita pela tabela `users` para simplicidade.
+- `password_hash` está em formato simples (sem hash forte) por requisito de MVP interno.
+- Em produção, recomenda-se migrar para Supabase Auth + hash seguro + RLS por usuário/equipe.
+
