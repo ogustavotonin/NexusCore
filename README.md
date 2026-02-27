@@ -27,7 +27,7 @@ MVP web responsivo para uso interno com **Next.js + TypeScript + Tailwind** no f
 - Financeiro (Contas a pagar e receber):
   - Lançamentos com tipo PAGAR/RECEBER
   - Status (PENDENTE/PAGO/RECEBIDO)
-  - Totais pendentes, filtros (tipo/status), edição, exclusão e baixa rápida
+  - Totais pendentes e baixa rápida
 - Indicações:
   - Contrato pode ser indicado por um cliente (`referred_by_client_id`)
   - Resumo por cliente indicador com:
@@ -77,6 +77,8 @@ MVP web responsivo para uso interno com **Next.js + TypeScript + Tailwind** no f
 ├── supabase/
 │   ├── migrations/001_mvp_crm_kanban_indicacoes.sql
 │   └── seed.sql
+
+Inclui também a tabela `financial_entries` para contas a pagar e receber.
 ├── middleware.ts
 └── README.md
 ```
@@ -113,6 +115,8 @@ Usuário inicial (seed da migration):
 
 - usuário: `nexuscore`
 - senha: `Nc@911500`
+- usuário: `admin`
+- senha: `admin123`
 
 ---
 
@@ -122,8 +126,3 @@ Usuário inicial (seed da migration):
 - `password_hash` está em formato simples (sem hash forte) por requisito de MVP interno.
 - Em produção, recomenda-se migrar para Supabase Auth + hash seguro + RLS por usuário/equipe.
 
-
-
-### Mudança recente
-
-- A área **Financeiro** agora suporta **edição** e **exclusão** de lançamentos, além de filtros por **tipo** e **status**.

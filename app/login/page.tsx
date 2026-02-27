@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from "@/lib/supabase";
 import { setSession } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -26,11 +27,19 @@ export default function LoginPage() {
     setError(null);
 
     if (values.username !== BASIC_USER || values.password !== BASIC_PASSWORD) {
+    const { data, error: dbError } = await supabase
+      .from("users")
+      .select("username,password_hash")
+      .eq("username", values.username)
+      .maybeSingle();
+
+    if (dbError || !data || data.password_hash !== values.password) {
       setError("Credenciais inválidas");
       return;
     }
 
     setSession(BASIC_USER);
+    setSession(values.username);
     router.push("/dashboard");
   };
 

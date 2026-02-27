@@ -98,3 +98,5 @@ where not exists (select 1 from public.kanban_columns);
 insert into public.users (username, password_hash)
 select 'nexuscore', 'Nc@911500'
 where not exists (select 1 from public.users where username = 'nexuscore');
+select 'admin', 'admin123'
+where not exists (select 1 from public.users where username = 'admin');
