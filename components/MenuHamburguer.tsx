@@ -12,6 +12,7 @@ const items = [
   ["Clientes", "/clientes"],
   ["CRM (Contratos)", "/crm/contratos"],
   ["Indicações", "/indicacoes"],
+  ["Financeiro", "/financeiro"],
   ["Produtos & Serviços", "/produtos-servicos"]
 ] as const;
 

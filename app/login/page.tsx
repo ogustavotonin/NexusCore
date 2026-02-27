@@ -8,6 +8,9 @@ import { setSession } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+const BASIC_USER = "nexuscore";
+const BASIC_PASSWORD = "Nc@911500";
+
 const schema = z.object({
   username: z.string().min(2, "Nome obrigatório"),
   password: z.string().min(2, "Senha obrigatória")
@@ -22,6 +25,8 @@ export default function LoginPage() {
 
   const onSubmit = async (values: LoginInput) => {
     setError(null);
+
+    if (values.username !== BASIC_USER || values.password !== BASIC_PASSWORD) {
     const { data, error: dbError } = await supabase
       .from("users")
       .select("username,password_hash")
@@ -33,6 +38,7 @@ export default function LoginPage() {
       return;
     }
 
+    setSession(BASIC_USER);
     setSession(values.username);
     router.push("/dashboard");
   };

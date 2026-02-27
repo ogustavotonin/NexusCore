@@ -37,6 +37,20 @@ create table if not exists public.contracts (
   created_at timestamptz not null default now()
 );
 
+
+
+create table if not exists public.financial_entries (
+  id bigint generated always as identity primary key,
+  title text not null,
+  type text not null check (type in ('PAGAR', 'RECEBER')),
+  amount numeric(12,2) not null,
+  due_date date not null,
+  status text not null check (status in ('PENDENTE', 'PAGO', 'RECEBIDO')) default 'PENDENTE',
+  client_id bigint references public.clients(id) on delete set null,
+  notes text,
+  created_at timestamptz not null default now()
+);
+
 create table if not exists public.kanban_columns (
   id bigint generated always as identity primary key,
   name text not null,
@@ -61,6 +75,7 @@ alter table public.products_services enable row level security;
 alter table public.contracts enable row level security;
 alter table public.kanban_columns enable row level security;
 alter table public.kanban_cards enable row level security;
+alter table public.financial_entries enable row level security;
 
 create policy if not exists "mvp all users" on public.users for all to anon, authenticated using (true) with check (true);
 create policy if not exists "mvp all clients" on public.clients for all to anon, authenticated using (true) with check (true);
@@ -68,6 +83,7 @@ create policy if not exists "mvp all products_services" on public.products_servi
 create policy if not exists "mvp all contracts" on public.contracts for all to anon, authenticated using (true) with check (true);
 create policy if not exists "mvp all kanban_columns" on public.kanban_columns for all to anon, authenticated using (true) with check (true);
 create policy if not exists "mvp all kanban_cards" on public.kanban_cards for all to anon, authenticated using (true) with check (true);
+create policy if not exists "mvp all financial_entries" on public.financial_entries for all to anon, authenticated using (true) with check (true);
 
 insert into public.kanban_columns (name, position)
 select * from (values
@@ -80,5 +96,7 @@ select * from (values
 where not exists (select 1 from public.kanban_columns);
 
 insert into public.users (username, password_hash)
+select 'nexuscore', 'Nc@911500'
+where not exists (select 1 from public.users where username = 'nexuscore');
 select 'admin', 'admin123'
 where not exists (select 1 from public.users where username = 'admin');

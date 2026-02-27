@@ -8,3 +8,8 @@ select c1.id, 'Comodato Máquina X', current_date, 'ATIVO', 1299.90, c2.id
 from public.clients c1
 join public.clients c2 on c2.name = 'Empresa Beta'
 where c1.name = 'Empresa Alpha';
+
+
+insert into public.financial_entries (title, type, amount, due_date, status, notes) values
+('Aluguel escritório', 'PAGAR', 2500.00, current_date + interval '5 day', 'PENDENTE', 'Pagamento mensal'),
+('Fatura cliente Alpha', 'RECEBER', 4200.00, current_date + interval '7 day', 'PENDENTE', 'Contrato ativo');

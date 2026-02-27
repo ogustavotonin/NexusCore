@@ -12,6 +12,7 @@ MVP web responsivo para uso interno com **Next.js + TypeScript + Tailwind** no f
   - Clientes
   - CRM (Contratos)
   - Indicações
+  - Financeiro
   - Produtos & Serviços
   - Sair
 - CRM:
@@ -23,6 +24,10 @@ MVP web responsivo para uso interno com **Next.js + TypeScript + Tailwind** no f
   - Persistência de coluna/posição no Supabase
 - Produtos & Serviços:
   - CRUD básico
+- Financeiro (Contas a pagar e receber):
+  - Lançamentos com tipo PAGAR/RECEBER
+  - Status (PENDENTE/PAGO/RECEBIDO)
+  - Totais pendentes e baixa rápida
 - Indicações:
   - Contrato pode ser indicado por um cliente (`referred_by_client_id`)
   - Resumo por cliente indicador com:
@@ -54,6 +59,7 @@ MVP web responsivo para uso interno com **Next.js + TypeScript + Tailwind** no f
 │   ├── crm/contratos/page.tsx
 │   ├── indicacoes/page.tsx
 │   ├── login/page.tsx
+│   ├── financeiro/page.tsx
 │   ├── produtos-servicos/page.tsx
 │   ├── globals.css
 │   └── layout.tsx
@@ -71,6 +77,8 @@ MVP web responsivo para uso interno com **Next.js + TypeScript + Tailwind** no f
 ├── supabase/
 │   ├── migrations/001_mvp_crm_kanban_indicacoes.sql
 │   └── seed.sql
+
+Inclui também a tabela `financial_entries` para contas a pagar e receber.
 ├── middleware.ts
 └── README.md
 ```
@@ -105,6 +113,8 @@ Abra: `http://localhost:3000`
 
 Usuário inicial (seed da migration):
 
+- usuário: `nexuscore`
+- senha: `Nc@911500`
 - usuário: `admin`
 - senha: `admin123`
 
