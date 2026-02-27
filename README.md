@@ -115,6 +115,8 @@ Usuário inicial (seed da migration):
 
 - usuário: `nexuscore`
 - senha: `Nc@911500`
+- usuário: `admin`
+- senha: `admin123`
 
 ---
 

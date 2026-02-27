@@ -17,6 +17,11 @@ export default function DashboardPage() {
         supabase.from("contracts").select("id", { count: "exact", head: true }).eq("status", "ATIVO").not("referred_by_client_id", "is", null),
         supabase.from("kanban_cards").select("id,column_id"),
         supabase.from("financial_entries").select("id", { count: "exact", head: true }).eq("status", "PENDENTE")
+      const [clients, contracts, indications, cards] = await Promise.all([
+        supabase.from("clients").select("id", { count: "exact", head: true }),
+        supabase.from("contracts").select("id", { count: "exact", head: true }).eq("status", "ATIVO"),
+        supabase.from("contracts").select("id", { count: "exact", head: true }).eq("status", "ATIVO").not("referred_by_client_id", "is", null),
+        supabase.from("kanban_cards").select("id,column_id")
       ]);
 
       const cardsByColumn = (cards.data || []).reduce((acc: Record<string, number>, card) => {
@@ -31,6 +36,7 @@ export default function DashboardPage() {
         { label: "Cards Kanban", value: (cards.data || []).length },
         { label: "Cards por coluna", value: Object.entries(cardsByColumn).map(([k, v]) => `${k}: ${v}`).join(" | ") || "Sem cards" },
         { label: "Financeiro pendente", value: financialPending.count ?? 0 }
+        { label: "Cards por coluna", value: Object.entries(cardsByColumn).map(([k, v]) => `${k}: ${v}`).join(" | ") || "Sem cards" }
       ]);
     };
 
