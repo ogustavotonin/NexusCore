@@ -16,8 +16,8 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-export type KanbanColumn = { id: number; name: string; position: number };
-export type KanbanCard = { id: number; title: string; column_id: number; client_id: number | null; value_estimated: number | null; owner_user_id: number | null; due_date: string | null; clients?: { name: string } | null };
+export type KanbanColumn = { id: number; name: string; position: number; funnel: "PROSPECCAO_QUALIFICACAO" | "VENDAS_PONTUAIS" | "COMODATO" };
+export type KanbanCard = { id: number; title: string; column_id: number; client_id: number | null; value_estimated: number | null; owner_user_id: number | null; due_date: string | null; clients?: { name: string } | null; kanban_columns?: { funnel: KanbanColumn["funnel"] } | null };
 
 function SortableCard({ card }: { card: KanbanCard }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: card.id });

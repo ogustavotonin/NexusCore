@@ -70,3 +70,12 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Next.js / Node
+node_modules/
+.next/
+out/
+.env.local
+.env*
+tsconfig.tsbuildinfo
+npm-debug.log*
