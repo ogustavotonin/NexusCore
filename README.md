@@ -126,3 +126,43 @@ Usuário inicial (seed da migration):
 - `password_hash` está em formato simples (sem hash forte) por requisito de MVP interno.
 - Em produção, recomenda-se migrar para Supabase Auth + hash seguro + RLS por usuário/equipe.
 
+
+## Automação Agendor + Asaas
+
+Foi adicionada uma base para automação do processo comercial:
+
+- Três funis no Kanban: `PROSPECCAO_QUALIFICACAO`, `VENDAS_PONTUAIS` e `COMODATO`.
+- Webhook `POST /api/webhooks/agendor` para receber eventos de negócio fechado.
+- Ao receber um negócio fechado:
+  - cria/atualiza cliente no Supabase,
+  - cria contrato com duração em meses,
+  - cria cliente e assinatura recorrente no Asaas.
+
+### Variáveis de ambiente adicionais
+
+```env
+SUPABASE_SERVICE_ROLE_KEY=SUA_SERVICE_ROLE_KEY
+AGENDOR_WEBHOOK_TOKEN=TOKEN_SEGURO_DO_WEBHOOK
+AGENDOR_WON_STAGE_KEY=ID_DA_ETAPA_FECHADO_GANHO
+ASAAS_API_KEY=SUA_CHAVE_DA_API_ASAAS
+ASAAS_BASE_URL=https://api.asaas.com/v3
+```
+
+### Exemplo de payload aceito no webhook
+
+```json
+{
+  "dealId": 123,
+  "title": "Comodato Cliente XPTO",
+  "status": "won",
+  "stageKey": "fechado_ganho",
+  "contractDurationMonths": 24,
+  "monthlyValue": 899.90,
+  "contractType": "COMODATO",
+  "customer": {
+    "name": "Cliente XPTO",
+    "email": "financeiro@cliente.com",
+    "phone": "11999999999"
+  }
+}
+```
